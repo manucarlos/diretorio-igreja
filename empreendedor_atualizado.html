@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Empreendedor - Diretório de Serviços</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a5a97;
+            --secondary-color: #f8f9fa;
+            --accent-color: #e3a04b;
+            --text-color: #333;
+            --light-text: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .back-link {
+            color: var(--light-text);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+        
+        .back-link:hover {
+            opacity: 0.8;
+            color: var(--light-text);
+        }
+        
+        .entrepreneur-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .entrepreneur-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .entrepreneur-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin-right: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .entrepreneur-title {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .entrepreneur-category {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+        
+        .entrepreneur-body {
+            padding: 2rem;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .entrepreneur-description {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .price-tag {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-link:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .whatsapp-section {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        
+        .whatsapp-hidden {
+            background-color: #e9ecef;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .whatsapp-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-control {
+            border-radius: 5px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2d4a7d;
+            border-color: #2d4a7d;
+        }
+        
+        .whatsapp-revealed {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            background-color: #d4edda;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        
+        .whatsapp-button {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .whatsapp-button:hover {
+            background-color: #128c7e;
+            color: white;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .footer p {
+            margin-bottom: 0;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .entrepreneur-header {
+                padding: 1.5rem;
+                text-align: center;
+            }
+            
+            .entrepreneur-logo {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .entrepreneur-title {
+                font-size: 1.5rem;
+            }
+            
+            .entrepreneur-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left me-2"></i> Voltar para categorias
+            </a>
+            <h1><i class="fas fa-church me-2"></i> Diretório de Serviços</h1>
+            <p>Detalhes do Empreendedor</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="loading" class="loading">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+        </div>
+
+        <div id="entrepreneur-container" style="display: none;">
+            <!-- Entrepreneur details will be loaded here dynamically -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> Diretório de Serviços da Igreja. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // URL do Google Apps Script publicado como aplicativo da web
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mA4Ipo-F6Y-6MZNgKn8o6frPHt7x8sCQtKw-LMNXPntD4dbwzO1du9hZy71Vfdrc5g/exec';
+
+        // Get entrepreneur ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const entrepreneurId = urlParams.get('id');
+
+        // Função para carregar detalhes do empreendedor
+        async function loadEntrepreneurDetails() {
+            const entrepreneurContainer = document.getElementById('entrepreneur-container');
+            
+            if (!entrepreneurId) {
+                entrepreneurContainer.innerHTML = `
+                    <div class="alert alert-danger">
+                        ID do empreendedor não fornecido. <a href="index.html">Voltar para a página inicial</a>
+                    </div>
+                `;
+                document.getElementById('loading').style.display = 'none';
+                entrepreneurContainer.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getEntrepreneur&id=${entrepreneurId}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    entrepreneurContainer.innerHTML = `
+                        <div class="alert alert-danger">
+                            ${data.error}. <a href="index.html">Voltar para a página inicial</a>
+                        </div>
+                    `;
+                    document.getElementById('loading').style.display = 'none';
+                    entrepreneurContainer.style.display = 'block';
+                    return;
+                }
+                
+                const entrepreneur = data.entrepreneur;
+                
+                if (!entrepreneur) {
+                    entrepreneurContainer.innerHTML = `
+                        <div class="alert alert-danger">
+                            Empreendedor não encontrado. <a href="index.html">Voltar para a página inicial</a>
+                        </div>
+                    `;
+                    document.getElementById('loading').style.display = 'none';
+                    entrepreneurContainer.style.display = 'block';
+                    return;
+                }
+                
+                // Update page title
+                document.title = `${entrepreneur.name} - Diretório de Serviços`;
+                
+                // Create entrepreneur details HTML
+                entrepreneurContainer.innerHTML = `
+                    <div class="entrepreneur-card">
+                        <div class="entrepreneur-header">
+                            <div class="d-flex flex-column flex-md-row align-items-md-center">
+                                <img src="${entrepreneur.logo}" alt="${entrepreneur.name}" class="entrepreneur-logo">
+                                <div>
+                                    <h2 class="entrepreneur-title">${entrepreneur.name}</h2>
+                                    <span class="entrepreneur-category">${entrepreneur.category}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="entrepreneur-body">
+                            <h3 class="section-title">Sobre</h3>
+                            <p class="entrepreneur-description">${entrepreneur.description}</p>
+                            
+                            ${entrepreneur.prices ? `<div class="price-tag"><i class="fas fa-tag me-2"></i> ${entrepreneur.prices}</div>` : ''}
+                            
+                            <h3 class="section-title">Contato</h3>
+                            <div class="row">
+                                ${entrepreneur.website ? `
+                                    <div class="col-md-6">
+                                        <a href="${entrepreneur.website}" target="_blank" class="contact-link">
+                                            <div class="contact-icon">
+                                                <i class="fas fa-globe"></i>
+                                            </div>
+                                            <div>
+                                                <strong>Website</strong>
+                                                <p class="mb-0">${entrepreneur.website}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                ` : ''}
+                                
+                                ${entrepreneur.instagram ? `
+                                    <div class="col-md-6">
+                                        <a href="https://instagram.com/${entrepreneur.instagram.replace('@', '')}" target="_blank" class="contact-link">
+                                            <div class="contact-icon">
+                                                <i class="fab fa-instagram"></i>
+                                            </div>
+                                            <div>
+                                                <strong>Instagram</strong>
+                                                <p class="mb-0">${entrepreneur.instagram}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="whatsapp-section">
+                                <h3 class="section-title">WhatsApp</h3>
+                                <div class="whatsapp-hidden">
+                                    <i class="fas fa-lock me-2"></i> O número de WhatsApp está protegido
+                                </div>
+                                
+                                <div id="whatsapp-form" class="whatsapp-form">
+                                    <p>Para ver o número de WhatsApp, por favor preencha os campos abaixo:</p>
+                                    <form id="contact-form">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Seu Nome</label>
+                                            <input type="text" class="form-control" id="name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="whatsapp" class="form-label">Seu WhatsApp</label>
+                                            <input type="tel" class="form-control" id="whatsapp" placeholder="Ex: 11999999999" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Ver WhatsApp</button>
+                                    </form>
+                                </div>
+                                
+                                <div id="whatsapp-revealed" class="whatsapp-revealed">
+                                    <p><strong>WhatsApp revelado!</strong></p>
+                                    <p id="whatsapp-number"></p>
+                                    <a id="whatsapp-link" href="#" target="_blank" class="whatsapp-button">
+                                        <i class="fab fa-whatsapp me-2"></i> Conversar no WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add event listener to the form
+                document.getElementById('contact-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('name').value;
+                    const userWhatsapp = document.getElementById('whatsapp').value;
+                    
+                    // Enviar dados para o Google Apps Script
+                    saveUserData(name, userWhatsapp, entrepreneurId, entrepreneur.name);
+                });
+                
+                // Hide loading and show entrepreneur details
+                document.getElementById('loading').style.display = 'none';
+                entrepreneurContainer.style.display = 'block';
+            } catch (error) {
+                console.error('Erro ao carregar detalhes do empreendedor:', error);
+                entrepreneurContainer.innerHTML = `
+                    <div class="alert alert-danger">
+                        Não foi possível carregar os detalhes do empreendedor. Por favor, tente novamente mais tarde.
+                        <a href="index.html">Voltar para a página inicial</a>
+                    </div>
+                `;
+                document.getElementById('loading').style.display = 'none';
+                entrepreneurContainer.style.display = 'block';
+            }
+        }
+
+        // Função para salvar dados do usuário e revelar WhatsApp
+        async function saveUserData(name, whatsapp, entrepreneurId, entrepreneurName) {
+            try {
+                // Mostrar indicador de carregamento
+                document.getElementById('whatsapp-form').innerHTML = `
+                    <div class="text-center p-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <p class="mt-2">Processando...</p>
+                    </div>
+                `;
+                
+                // Enviar dados para o Google Apps Script
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'saveUserData',
+                        name: name,
+                        whatsapp: whatsapp,
+                        entrepreneurId: entrepreneurId,
+                        entrepreneurName: entrepreneurName
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('whatsapp-form').innerHTML = `
+                        <div class="alert alert-danger">
+                            ${data.error}. Por favor, tente novamente.
+                        </div>
+                        <button class="btn btn-primary w-100" onclick="location.reload()">Tentar Novamente</button>
+                    `;
+                    return;
+                }
+                
+                if (data.success && data.whatsappNumber) {
+                    revealWhatsapp(data.whatsappNumber);
+                } else {
+                    document.getElementById('whatsapp-form').innerHTML = `
+                        <div class="alert alert-danger">
+                            Erro ao processar a solicitação. Por favor, tente novamente.
+                        </div>
+                        <button class="btn btn-primary w-100" onclick="location.reload()">Tentar Novamente</button>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao salvar dados do usuário:', error);
+                document.getElementById('whatsapp-form').innerHTML = `
+                    <div class="alert alert-danger">
+                        Erro ao processar a solicitação. Por favor, tente novamente.
+                    </div>
+                    <button class="btn btn-primary w-100" onclick="location.reload()">Tentar Novamente</button>
+                `;
+            }
+        }
+
+        // Função para revelar o número de WhatsApp
+        function revealWhatsapp(whatsappNumber) {
+            document.getElementById('whatsapp-form').style.display = 'none';
+            document.getElementById('whatsapp-revealed').style.display = 'block';
+            
+            // Format WhatsApp number for display
+            const formattedNumber = formatWhatsappNumber(whatsappNumber);
+            document.getElementById('whatsapp-number').textContent = formattedNumber;
+            
+            // Set WhatsApp link
+            const whatsappLink = `https://wa.me/${whatsappNumber}`;
+            document.getElementById('whatsapp-link').href = whatsappLink;
+        }
+
+        // Função para formatar número de WhatsApp para exibição
+        function formatWhatsappNumber(number) {
+            // Remove any non-digit characters
+            const digits = number.replace(/\D/g, '');
+            
+            // Format based on Brazilian phone number pattern
+            if (digits.length === 13 && digits.startsWith('55')) {
+                // +55 (XX) XXXXX-XXXX
+                return `+${digits.substring(0, 2)} (${digits.substring(2, 4)}) ${digits.substring(4, 9)}-${digits.substring(9)}`;
+            } else if (digits.length === 11) {
+                // (XX) XXXXX-XXXX
+                return `(${digits.substring(0, 2)}) ${digits.substring(2, 7)}-${digits.substring(7)}`;
+            } else {
+                return number;
+            }
+        }
+
+        // Carregar detalhes do empreendedor quando a página for carregada
+        document.addEventListener('DOMContentLoaded', loadEntrepreneurDetails);
+    </script>
+</body>
+</html>
+
