@@ -229,19 +229,6 @@
             margin-bottom: 0;
         }
         
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 300px;
-        }
-        
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-            color: var(--primary-color);
-        }
-        
         @media (max-width: 768px) {
             .entrepreneur-header {
                 padding: 1.5rem;
@@ -274,21 +261,17 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" id="entrepreneur-container">
         <div id="loading" class="loading">
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Carregando...</span>
             </div>
         </div>
-
-        <div id="entrepreneur-container" style="display: none;">
-            <!-- Entrepreneur details will be loaded here dynamically -->
-        </div>
     </main>
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; <span id="current-year"></span> Diretório de Empreendedores da Vertical Church. Todos os direitos reservados.</p>
+            <p>&copy; <span id="current-year"></span> Diretório de Serviços da Igreja. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -297,230 +280,256 @@
         // Set current year in footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // URL do Google Apps Script publicado como aplicativo da web
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mA4Ipo-F6Y-6MZNgKn8o6frPHt7x8sCQtKw-LMNXPntD4dbwzO1du9hZy71Vfdrc5g/exec';
+        // Sample entrepreneurs data (will be replaced with data from Google Sheets)
+        const entrepreneurs = {
+            'cab1': {
+                id: 'cab1',
+                name: 'Salão Beleza Divina',
+                category: 'Cabeleireiros',
+                description: 'Especializado em cortes femininos, masculinos e infantis. Coloração, hidratação e penteados para eventos. Atendimento personalizado e ambiente acolhedor. Trabalhamos com produtos de alta qualidade e oferecemos um serviço diferenciado para nossos clientes. Agende seu horário e venha conhecer!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 30,00',
+                instagram: '@belezadivina',
+                website: 'https://example.com',
+                whatsapp: '5511999999999'
+            },
+            'cab2': {
+                id: 'cab2',
+                name: 'Barbearia Graça',
+                category: 'Cabeleireiros',
+                description: 'Cortes masculinos, barba, bigode e sobrancelha. Ambiente agradável e atendimento personalizado. Oferecemos bebidas e um ambiente descontraído para nossos clientes. Trabalhamos com agendamento e também atendemos por ordem de chegada. Venha conhecer nosso espaço!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 25,00',
+                instagram: '@barbeariagracaoficial',
+                website: '',
+                whatsapp: '5511988888888'
+            },
+            'ped1': {
+                id: 'ped1',
+                name: 'Construções Fé',
+                category: 'Pedreiros',
+                description: 'Serviços de construção, reforma, acabamento e pintura. Orçamento sem compromisso. Equipe qualificada e comprometida com a qualidade do serviço. Atendemos residências, comércios e indústrias. Entre em contato para mais informações e orçamentos.',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'Sob consulta',
+                instagram: '@construcoesfe',
+                website: '',
+                whatsapp: '5511977777777'
+            },
+            'bol1': {
+                id: 'bol1',
+                name: 'Bolos da Graça',
+                category: 'Boleiras',
+                description: 'Bolos artesanais para festas, casamentos e eventos. Sabores tradicionais e especiais. Trabalhamos com encomendas e entregamos em toda a cidade. Nossos bolos são feitos com ingredientes selecionados e muito amor. Faça sua encomenda com antecedência!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 60,00/kg',
+                instagram: '@bolosdagraca',
+                website: 'https://example.com',
+                whatsapp: '5511966666666'
+            },
+            'bol2': {
+                id: 'bol2',
+                name: 'Doce Bênção',
+                category: 'Boleiras',
+                description: 'Bolos decorados, naked cake, chantininho e pasta americana. Aceitamos encomendas. Especializada em bolos para festas infantis, casamentos e eventos corporativos. Também trabalhamos com docinhos, cupcakes e outras delícias. Entre em contato para mais informações!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 50,00/kg',
+                instagram: '@docebencao',
+                website: '',
+                whatsapp: '5511955555555'
+            },
+            'doc1': {
+                id: 'doc1',
+                name: 'Doces Divinos',
+                category: 'Doces e Guloseimas',
+                description: 'Brigadeiros, beijinhos, cajuzinhos e doces finos para festas e eventos. Trabalhamos com encomendas para festas, casamentos e eventos corporativos. Nossos doces são feitos com ingredientes de qualidade e muito carinho. Faça sua encomenda!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 2,50/unidade',
+                instagram: '@docesdivinos',
+                website: '',
+                whatsapp: '5511944444444'
+            },
+            'cos1': {
+                id: 'cos1',
+                name: 'Ateliê Bênção',
+                category: 'Costura e Artesanato',
+                description: 'Confecção e ajustes de roupas, cortinas e artigos de decoração. Trabalhamos com tecidos de qualidade e oferecemos um serviço personalizado. Atendemos sob medida e fazemos reparos em geral. Entre em contato para mais informações!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'Sob consulta',
+                instagram: '@ateliebencao',
+                website: '',
+                whatsapp: '5511933333333'
+            },
+            'inf1': {
+                id: 'inf1',
+                name: 'Suporte Técnico Cristão',
+                category: 'Informática',
+                description: 'Manutenção de computadores, instalação de programas e aulas de informática. Atendemos em domicílio ou em nossa loja. Trabalhamos com equipamentos de todas as marcas e oferecemos um serviço de qualidade. Entre em contato para mais informações!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 50,00',
+                instagram: '@suportecristao',
+                website: 'https://example.com',
+                whatsapp: '5511922222222'
+            },
+            'sau1': {
+                id: 'sau1',
+                name: 'Consultório Vida Plena',
+                category: 'Saúde e Bem-estar',
+                description: 'Atendimento psicológico, nutricional e fisioterapêutico. Trabalhamos com uma equipe multidisciplinar para oferecer um atendimento completo. Consultas presenciais e online. Entre em contato para mais informações!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 100,00/consulta',
+                instagram: '@vidaplena',
+                website: 'https://example.com',
+                whatsapp: '5511911111111'
+            },
+            'edu1': {
+                id: 'edu1',
+                name: 'Aulas Particulares Sabedoria',
+                category: 'Educação',
+                description: 'Reforço escolar, preparação para vestibular e concursos. Atendemos alunos de todas as idades e níveis de ensino. Aulas presenciais e online. Entre em contato para mais informações!',
+                logo: 'https://via.placeholder.com/150',
+                prices: 'A partir de R$ 40,00/hora',
+                instagram: '@aulassabedoria',
+                website: '',
+                whatsapp: '5511900000000'
+            }
+        };
 
-        // Get entrepreneur ID from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const entrepreneurId = urlParams.get('id');
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
-        // Função para carregar detalhes do empreendedor
-        async function loadEntrepreneurDetails() {
+        // Function to load entrepreneur details
+        function loadEntrepreneurDetails() {
+            const entrepreneurId = getUrlParameter('id');
             const entrepreneurContainer = document.getElementById('entrepreneur-container');
             
-            if (!entrepreneurId) {
+            if (!entrepreneurId || !entrepreneurs[entrepreneurId]) {
                 entrepreneurContainer.innerHTML = `
                     <div class="alert alert-danger">
-                        ID do empreendedor não fornecido. <a href="index.html">Voltar para a página inicial</a>
+                        Empreendedor não encontrado. <a href="index.html">Voltar para a página inicial</a>
                     </div>
                 `;
                 document.getElementById('loading').style.display = 'none';
-                entrepreneurContainer.style.display = 'block';
                 return;
             }
             
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=getEntrepreneur&id=${entrepreneurId}`);
-                const data = await response.json();
-                
-                if (data.error) {
-                    entrepreneurContainer.innerHTML = `
-                        <div class="alert alert-danger">
-                            ${data.error}. <a href="index.html">Voltar para a página inicial</a>
-                        </div>
-                    `;
-                    document.getElementById('loading').style.display = 'none';
-                    entrepreneurContainer.style.display = 'block';
-                    return;
-                }
-                
-                const entrepreneur = data.entrepreneur;
-                
-                if (!entrepreneur) {
-                    entrepreneurContainer.innerHTML = `
-                        <div class="alert alert-danger">
-                            Empreendedor não encontrado. <a href="index.html">Voltar para a página inicial</a>
-                        </div>
-                    `;
-                    document.getElementById('loading').style.display = 'none';
-                    entrepreneurContainer.style.display = 'block';
-                    return;
-                }
-                
-                // Update page title
-                document.title = `${entrepreneur.name} - Diretório de Serviços`;
-                
-                // Create entrepreneur details HTML
-                entrepreneurContainer.innerHTML = `
-                    <div class="entrepreneur-card">
-                        <div class="entrepreneur-header">
-                            <div class="d-flex flex-column flex-md-row align-items-md-center">
-                                <img src="${entrepreneur.logo}" alt="${entrepreneur.name}" class="entrepreneur-logo">
-                                <div>
-                                    <h2 class="entrepreneur-title">${entrepreneur.name}</h2>
-                                    <span class="entrepreneur-category">${entrepreneur.category}</span>
-                                </div>
+            const entrepreneur = entrepreneurs[entrepreneurId];
+            
+            // Update page title
+            document.title = `${entrepreneur.name} - Diretório de Serviços`;
+            
+            // Create entrepreneur details HTML
+            const entrepreneurHTML = `
+                <div class="entrepreneur-card">
+                    <div class="entrepreneur-header">
+                        <div class="d-flex flex-column flex-md-row align-items-md-center">
+                            <img src="${entrepreneur.logo}" alt="${entrepreneur.name}" class="entrepreneur-logo">
+                            <div>
+                                <h2 class="entrepreneur-title">${entrepreneur.name}</h2>
+                                <span class="entrepreneur-category">${entrepreneur.category}</span>
                             </div>
                         </div>
-                        <div class="entrepreneur-body">
-                            <h3 class="section-title">Sobre</h3>
-                            <p class="entrepreneur-description">${entrepreneur.description}</p>
-                            
-                            ${entrepreneur.prices ? `<div class="price-tag"><i class="fas fa-tag me-2"></i> ${entrepreneur.prices}</div>` : ''}
-                            
-                            <h3 class="section-title">Contato</h3>
-                            <div class="row">
-                                ${entrepreneur.website ? `
-                                    <div class="col-md-6">
-                                        <a href="${entrepreneur.website}" target="_blank" class="contact-link">
-                                            <div class="contact-icon">
-                                                <i class="fas fa-globe"></i>
-                                            </div>
-                                            <div>
-                                                <strong>Website</strong>
-                                                <p class="mb-0">${entrepreneur.website}</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                ` : ''}
-                                
-                                ${entrepreneur.instagram ? `
-                                    <div class="col-md-6">
-                                        <a href="https://instagram.com/${entrepreneur.instagram.replace('@', '')}" target="_blank" class="contact-link">
-                                            <div class="contact-icon">
-                                                <i class="fab fa-instagram"></i>
-                                            </div>
-                                            <div>
-                                                <strong>Instagram</strong>
-                                                <p class="mb-0">${entrepreneur.instagram}</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                ` : ''}
-                            </div>
-                            
-                            <div class="whatsapp-section">
-                                <h3 class="section-title">WhatsApp</h3>
-                                <div class="whatsapp-hidden">
-                                    <i class="fas fa-lock me-2"></i> O número de WhatsApp está protegido
-                                </div>
-                                
-                                <div id="whatsapp-form" class="whatsapp-form">
-                                    <p>Para ver o número de WhatsApp, por favor preencha os campos abaixo:</p>
-                                    <form id="contact-form">
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Seu Nome</label>
-                                            <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="entrepreneur-body">
+                        <h3 class="section-title">Sobre</h3>
+                        <p class="entrepreneur-description">${entrepreneur.description}</p>
+                        
+                        ${entrepreneur.prices ? `<div class="price-tag"><i class="fas fa-tag me-2"></i> ${entrepreneur.prices}</div>` : ''}
+                        
+                        <h3 class="section-title">Contato</h3>
+                        <div class="row">
+                            ${entrepreneur.website ? `
+                                <div class="col-md-6">
+                                    <a href="${entrepreneur.website}" target="_blank" class="contact-link">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-globe"></i>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="whatsapp" class="form-label">Seu WhatsApp</label>
-                                            <input type="tel" class="form-control" id="whatsapp" placeholder="Ex: 11999999999" required>
+                                        <div>
+                                            <strong>Website</strong>
+                                            <p class="mb-0">${entrepreneur.website}</p>
                                         </div>
-                                        <button type="submit" class="btn btn-primary w-100">Ver WhatsApp</button>
-                                    </form>
-                                </div>
-                                
-                                <div id="whatsapp-revealed" class="whatsapp-revealed">
-                                    <p><strong>WhatsApp revelado!</strong></p>
-                                    <p id="whatsapp-number"></p>
-                                    <a id="whatsapp-link" href="#" target="_blank" class="whatsapp-button">
-                                        <i class="fab fa-whatsapp me-2"></i> Conversar no WhatsApp
                                     </a>
                                 </div>
+                            ` : ''}
+                            
+                            ${entrepreneur.instagram ? `
+                                <div class="col-md-6">
+                                    <a href="https://instagram.com/${entrepreneur.instagram.replace('@', '')}" target="_blank" class="contact-link">
+                                        <div class="contact-icon">
+                                            <i class="fab fa-instagram"></i>
+                                        </div>
+                                        <div>
+                                            <strong>Instagram</strong>
+                                            <p class="mb-0">${entrepreneur.instagram}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="whatsapp-section">
+                            <h3 class="section-title">WhatsApp</h3>
+                            <div class="whatsapp-hidden">
+                                <i class="fas fa-lock me-2"></i> O número de WhatsApp está protegido
+                            </div>
+                            
+                            <div id="whatsapp-form" class="whatsapp-form">
+                                <p>Para ver o número de WhatsApp, por favor preencha os campos abaixo:</p>
+                                <form id="contact-form">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Seu Nome</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="whatsapp" class="form-label">Seu WhatsApp</label>
+                                        <input type="tel" class="form-control" id="whatsapp" placeholder="Ex: 11999999999" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Ver WhatsApp</button>
+                                </form>
+                            </div>
+                            
+                            <div id="whatsapp-revealed" class="whatsapp-revealed">
+                                <p><strong>WhatsApp revelado!</strong></p>
+                                <p id="whatsapp-number"></p>
+                                <a id="whatsapp-link" href="#" target="_blank" class="whatsapp-button">
+                                    <i class="fab fa-whatsapp me-2"></i> Conversar no WhatsApp
+                                </a>
                             </div>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
+            
+            // Hide loading and show entrepreneur details
+            document.getElementById('loading').style.display = 'none';
+            entrepreneurContainer.innerHTML = entrepreneurHTML;
+            
+            // Add event listener to the form
+            document.getElementById('contact-form').addEventListener('submit', function(e) {
+                e.preventDefault();
                 
-                // Add event listener to the form
-                document.getElementById('contact-form').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const name = document.getElementById('name').value;
-                    const userWhatsapp = document.getElementById('whatsapp').value;
-                    
-                    // Enviar dados para o Google Apps Script
-                    saveUserData(name, userWhatsapp, entrepreneurId, entrepreneur.name);
+                const name = document.getElementById('name').value;
+                const userWhatsapp = document.getElementById('whatsapp').value;
+                
+                // Simular o salvamento dos dados (em uma implementação real, isso seria enviado para o Google Apps Script)
+                console.log('Dados do usuário:', {
+                    name,
+                    whatsapp: userWhatsapp,
+                    entrepreneurId,
+                    entrepreneurName: entrepreneur.name,
+                    timestamp: new Date().toISOString()
                 });
                 
-                // Hide loading and show entrepreneur details
-                document.getElementById('loading').style.display = 'none';
-                entrepreneurContainer.style.display = 'block';
-            } catch (error) {
-                console.error('Erro ao carregar detalhes do empreendedor:', error);
-                entrepreneurContainer.innerHTML = `
-                    <div class="alert alert-danger">
-                        Não foi possível carregar os detalhes do empreendedor. Por favor, tente novamente mais tarde.
-                        <a href="index.html">Voltar para a página inicial</a>
-                    </div>
-                `;
-                document.getElementById('loading').style.display = 'none';
-                entrepreneurContainer.style.display = 'block';
-            }
+                // Revelar o WhatsApp
+                revealWhatsapp(entrepreneur.whatsapp);
+            });
         }
 
-        // Função para salvar dados do usuário e revelar WhatsApp
-        async function saveUserData(name, whatsapp, entrepreneurId, entrepreneurName) {
-            try {
-                // Mostrar indicador de carregamento
-                document.getElementById('whatsapp-form').innerHTML = `
-                    <div class="text-center p-4">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Carregando...</span>
-                        </div>
-                        <p class="mt-2">Processando...</p>
-                    </div>
-                `;
-                
-                // Enviar dados para o Google Apps Script
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'saveUserData',
-                        name: name,
-                        whatsapp: whatsapp,
-                        entrepreneurId: entrepreneurId,
-                        entrepreneurName: entrepreneurName
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    document.getElementById('whatsapp-form').innerHTML = `
-                        <div class="alert alert-danger">
-                            ${data.error}. Por favor, tente novamente.
-                        </div>
-                        <button class="btn btn-primary w-100" onclick="location.reload()">Tentar Novamente</button>
-                    `;
-                    return;
-                }
-                
-                if (data.success && data.whatsappNumber) {
-                    revealWhatsapp(data.whatsappNumber);
-                } else {
-                    document.getElementById('whatsapp-form').innerHTML = `
-                        <div class="alert alert-danger">
-                            Erro ao processar a solicitação. Por favor, tente novamente.
-                        </div>
-                        <button class="btn btn-primary w-100" onclick="location.reload()">Tentar Novamente</button>
-                    `;
-                }
-            } catch (error) {
-                console.error('Erro ao salvar dados do usuário:', error);
-                document.getElementById('whatsapp-form').innerHTML = `
-                    <div class="alert alert-danger">
-                        Erro ao processar a solicitação. Por favor, tente novamente.
-                    </div>
-                    <button class="btn btn-primary w-100" onclick="location.reload()">Tentar Novamente</button>
-                `;
-            }
-        }
-
-        // Função para revelar o número de WhatsApp
+        // Function to reveal WhatsApp number
         function revealWhatsapp(whatsappNumber) {
             document.getElementById('whatsapp-form').style.display = 'none';
             document.getElementById('whatsapp-revealed').style.display = 'block';
@@ -534,7 +543,7 @@
             document.getElementById('whatsapp-link').href = whatsappLink;
         }
 
-        // Função para formatar número de WhatsApp para exibição
+        // Function to format WhatsApp number for display
         function formatWhatsappNumber(number) {
             // Remove any non-digit characters
             const digits = number.replace(/\D/g, '');
@@ -551,7 +560,7 @@
             }
         }
 
-        // Carregar detalhes do empreendedor quando a página for carregada
+        // Load entrepreneur details when the page is loaded
         document.addEventListener('DOMContentLoaded', loadEntrepreneurDetails);
     </script>
 </body>
