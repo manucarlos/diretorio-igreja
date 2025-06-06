@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diretório de Serviços - Igreja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a5a97;
+            --secondary-color: #f8f9fa;
+            --accent-color: #e3a04b;
+            --text-color: #333;
+            --light-text: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .category-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-icon {
+            background-color: var(--primary-color);
+            color: white;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .category-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .category-info h3 {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .category-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-view {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-view:hover {
+            background-color: #2d4a7d;
+            color: white;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .footer p {
+            margin-bottom: 0;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            color: var(--primary-color);
+        }
+        
+        /* Modal styles */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        .entrepreneur-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+        }
+        
+        .entrepreneur-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .entrepreneur-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .entrepreneur-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+        
+        .entrepreneur-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .entrepreneur-description {
+            color: #666;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .category-icon {
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-church me-2"></i> Diretório de Serviços</h1>
+            <p>Encontre produtos e serviços oferecidos pelos membros da nossa igreja</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="loading" class="loading">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+        </div>
+
+        <div id="categories-container" class="row g-4" style="display: none;">
+            <!-- Categories will be loaded here dynamically -->
+        </div>
+    </main>
+
+    <!-- Modal for entrepreneurs list -->
+    <div class="modal fade" id="entrepreneursModal" tabindex="-1" aria-labelledby="entrepreneursModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="entrepreneursModalLabel">Empreendedores</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="entrepreneurs-container">
+                        <!-- Entrepreneurs will be loaded here dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> Diretório de Serviços da Igreja. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // URL do Google Apps Script publicado como aplicativo da web
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mA4Ipo-F6Y-6MZNgKn8o6frPHt7x8sCQtKw-LMNXPntD4dbwzO1du9hZy71Vfdrc5g/exec';
+
+        // Ícones para categorias
+        const categoryIcons = {
+            'cabeleireiros': 'fas fa-cut',
+            'pedreiros': 'fas fa-hard-hat',
+            'boleiras': 'fas fa-birthday-cake',
+            'doces-e-guloseimas': 'fas fa-candy-cane',
+            'costura-e-artesanato': 'fas fa-tshirt',
+            'informatica': 'fas fa-laptop',
+            'saude-e-bem-estar': 'fas fa-heartbeat',
+            'educacao': 'fas fa-book',
+            'default': 'fas fa-store'
+        };
+
+        // Função para carregar categorias do Google Apps Script
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getCategories`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    showError('Erro ao carregar categorias: ' + data.error);
+                    return;
+                }
+                
+                displayCategories(data.categories || []);
+            } catch (error) {
+                console.error('Erro ao carregar categorias:', error);
+                showError('Não foi possível carregar as categorias. Por favor, tente novamente mais tarde.');
+            }
+        }
+
+        // Função para exibir categorias na página
+        function displayCategories(categories) {
+            const categoriesContainer = document.getElementById('categories-container');
+            categoriesContainer.innerHTML = '';
+            
+            if (categories.length === 0) {
+                categoriesContainer.innerHTML = '<div class="col-12"><div class="alert alert-info">Nenhuma categoria encontrada.</div></div>';
+                document.getElementById('loading').style.display = 'none';
+                categoriesContainer.style.display = 'block';
+                return;
+            }
+            
+            categories.forEach(category => {
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'col-md-6 col-lg-3';
+                
+                // Determinar o ícone da categoria
+                const icon = categoryIcons[category.id] || categoryIcons.default;
+                
+                categoryCard.innerHTML = `
+                    <div class="category-card" data-category-id="${category.id}">
+                        <div class="category-icon">
+                            <i class="${icon}"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>${category.name}</h3>
+                            <button class="btn btn-view">Ver Serviços</button>
+                        </div>
+                    </div>
+                `;
+                categoriesContainer.appendChild(categoryCard);
+                
+                // Add click event to the category card
+                categoryCard.querySelector('.category-card').addEventListener('click', () => {
+                    showEntrepreneurs(category.id, category.name);
+                });
+            });
+            
+            // Hide loading and show categories
+            document.getElementById('loading').style.display = 'none';
+            categoriesContainer.style.display = 'flex';
+        }
+
+        // Função para mostrar empreendedores de uma categoria específica
+        async function showEntrepreneurs(categoryId, categoryName) {
+            const entrepreneursContainer = document.getElementById('entrepreneurs-container');
+            entrepreneursContainer.innerHTML = '<div class="text-center p-4"><div class="spinner-border" role="status"><span class="visually-hidden">Carregando...</span></div></div>';
+            
+            // Update modal title
+            document.getElementById('entrepreneursModalLabel').textContent = categoryName;
+            
+            // Show the modal
+            const entrepreneursModal = new bootstrap.Modal(document.getElementById('entrepreneursModal'));
+            entrepreneursModal.show();
+            
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getEntrepreneursByCategory&categoryId=${categoryId}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    entrepreneursContainer.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    return;
+                }
+                
+                const entrepreneurs = data.entrepreneurs || [];
+                
+                if (entrepreneurs.length === 0) {
+                    entrepreneursContainer.innerHTML = '<div class="alert alert-info">Nenhum empreendedor encontrado nesta categoria.</div>';
+                    return;
+                }
+                
+                entrepreneursContainer.innerHTML = '';
+                entrepreneurs.forEach(entrepreneur => {
+                    const entrepreneurCard = document.createElement('div');
+                    entrepreneurCard.className = 'entrepreneur-card';
+                    entrepreneurCard.innerHTML = `
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="${entrepreneur.logo}" alt="${entrepreneur.name}" class="entrepreneur-logo">
+                                <div>
+                                    <h5 class="entrepreneur-title">${entrepreneur.name}</h5>
+                                    <p class="mb-0 text-muted">${entrepreneur.prices}</p>
+                                </div>
+                            </div>
+                            <p class="entrepreneur-description">${entrepreneur.description}</p>
+                            <a href="empreendedor.html?id=${entrepreneur.id}" class="btn btn-view w-100">Ver Detalhes</a>
+                        </div>
+                    `;
+                    entrepreneursContainer.appendChild(entrepreneurCard);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar empreendedores:', error);
+                entrepreneursContainer.innerHTML = '<div class="alert alert-danger">Não foi possível carregar os empreendedores. Por favor, tente novamente mais tarde.</div>';
+            }
+        }
+
+        // Função para exibir mensagens de erro
+        function showError(message) {
+            const categoriesContainer = document.getElementById('categories-container');
+            categoriesContainer.innerHTML = `<div class="col-12"><div class="alert alert-danger">${message}</div></div>`;
+            document.getElementById('loading').style.display = 'none';
+            categoriesContainer.style.display = 'block';
+        }
+
+        // Carregar categorias quando a página for carregada
+        document.addEventListener('DOMContentLoaded', loadCategories);
+    </script>
+</body>
+</html>
+
