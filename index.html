@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diretório de Empreendedores da Vertical Church</title>
+    <title>Diretório de Serviços - Igreja</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -241,7 +241,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; <span id="current-year"></span> Diretório de Empreendedores da Vertical Church. Todos os direitos reservados.</p>
+            <p>&copy; <span id="current-year"></span> Diretório de Serviços da Igreja. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -250,66 +250,193 @@
         // Set current year in footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // URL do Google Apps Script publicado como aplicativo da web
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mA4Ipo-F6Y-6MZNgKn8o6frPHt7x8sCQtKw-LMNXPntD4dbwzO1du9hZy71Vfdrc5g/exec';
+        // Sample categories data (will be replaced with data from Google Sheets)
+        const categories = [
+            {
+                id: 'cabeleireiros',
+                name: 'Cabeleireiros',
+                icon: 'fas fa-cut',
+                description: 'Cortes, penteados, coloração e tratamentos capilares'
+            },
+            {
+                id: 'pedreiros',
+                name: 'Pedreiros',
+                icon: 'fas fa-hard-hat',
+                description: 'Construção, reformas e serviços de alvenaria'
+            },
+            {
+                id: 'boleiras',
+                name: 'Boleiras',
+                icon: 'fas fa-birthday-cake',
+                description: 'Bolos para festas, casamentos e eventos especiais'
+            },
+            {
+                id: 'doces',
+                name: 'Doces e Guloseimas',
+                icon: 'fas fa-candy-cane',
+                description: 'Doces artesanais, chocolates e sobremesas'
+            },
+            {
+                id: 'costura',
+                name: 'Costura e Artesanato',
+                icon: 'fas fa-tshirt',
+                description: 'Roupas sob medida, consertos e artesanato em geral'
+            },
+            {
+                id: 'informatica',
+                name: 'Informática',
+                icon: 'fas fa-laptop',
+                description: 'Manutenção de computadores, aulas e desenvolvimento'
+            },
+            {
+                id: 'saude',
+                name: 'Saúde e Bem-estar',
+                icon: 'fas fa-heartbeat',
+                description: 'Profissionais de saúde, terapias e bem-estar'
+            },
+            {
+                id: 'educacao',
+                name: 'Educação',
+                icon: 'fas fa-book',
+                description: 'Aulas particulares, reforço escolar e cursos'
+            }
+        ];
 
-        // Ícones para categorias
-        const categoryIcons = {
-            'cabeleireiros': 'fas fa-cut',
-            'pedreiros': 'fas fa-hard-hat',
-            'boleiras': 'fas fa-birthday-cake',
-            'doces-e-guloseimas': 'fas fa-candy-cane',
-            'costura-e-artesanato': 'fas fa-tshirt',
-            'informatica': 'fas fa-laptop',
-            'saude-e-bem-estar': 'fas fa-heartbeat',
-            'educacao': 'fas fa-book',
-            'default': 'fas fa-store'
+        // Sample entrepreneurs data (will be replaced with data from Google Sheets)
+        const entrepreneurs = {
+            'cabeleireiros': [
+                {
+                    id: 'cab1',
+                    name: 'Salão Beleza Divina',
+                    description: 'Especializado em cortes femininos, masculinos e infantis. Coloração, hidratação e penteados para eventos.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 30,00',
+                    instagram: '@belezadivina',
+                    website: 'https://example.com',
+                    whatsapp: '5511999999999'
+                },
+                {
+                    id: 'cab2',
+                    name: 'Barbearia Graça',
+                    description: 'Cortes masculinos, barba, bigode e sobrancelha. Ambiente agradável e atendimento personalizado.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 25,00',
+                    instagram: '@barbeariagracaoficial',
+                    website: '',
+                    whatsapp: '5511988888888'
+                }
+            ],
+            'pedreiros': [
+                {
+                    id: 'ped1',
+                    name: 'Construções Fé',
+                    description: 'Serviços de construção, reforma, acabamento e pintura. Orçamento sem compromisso.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'Sob consulta',
+                    instagram: '@construcoesfe',
+                    website: '',
+                    whatsapp: '5511977777777'
+                }
+            ],
+            'boleiras': [
+                {
+                    id: 'bol1',
+                    name: 'Bolos da Graça',
+                    description: 'Bolos artesanais para festas, casamentos e eventos. Sabores tradicionais e especiais.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 60,00/kg',
+                    instagram: '@bolosdagraca',
+                    website: 'https://example.com',
+                    whatsapp: '5511966666666'
+                },
+                {
+                    id: 'bol2',
+                    name: 'Doce Bênção',
+                    description: 'Bolos decorados, naked cake, chantininho e pasta americana. Aceitamos encomendas.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 50,00/kg',
+                    instagram: '@docebencao',
+                    website: '',
+                    whatsapp: '5511955555555'
+                }
+            ],
+            'doces': [
+                {
+                    id: 'doc1',
+                    name: 'Doces Divinos',
+                    description: 'Brigadeiros, beijinhos, cajuzinhos e doces finos para festas e eventos.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 2,50/unidade',
+                    instagram: '@docesdivinos',
+                    website: '',
+                    whatsapp: '5511944444444'
+                }
+            ],
+            'costura': [
+                {
+                    id: 'cos1',
+                    name: 'Ateliê Bênção',
+                    description: 'Confecção e ajustes de roupas, cortinas e artigos de decoração.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'Sob consulta',
+                    instagram: '@ateliebencao',
+                    website: '',
+                    whatsapp: '5511933333333'
+                }
+            ],
+            'informatica': [
+                {
+                    id: 'inf1',
+                    name: 'Suporte Técnico Cristão',
+                    description: 'Manutenção de computadores, instalação de programas e aulas de informática.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 50,00',
+                    instagram: '@suportecristao',
+                    website: 'https://example.com',
+                    whatsapp: '5511922222222'
+                }
+            ],
+            'saude': [
+                {
+                    id: 'sau1',
+                    name: 'Consultório Vida Plena',
+                    description: 'Atendimento psicológico, nutricional e fisioterapêutico.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 100,00/consulta',
+                    instagram: '@vidaplena',
+                    website: 'https://example.com',
+                    whatsapp: '5511911111111'
+                }
+            ],
+            'educacao': [
+                {
+                    id: 'edu1',
+                    name: 'Aulas Particulares Sabedoria',
+                    description: 'Reforço escolar, preparação para vestibular e concursos.',
+                    logo: 'https://via.placeholder.com/150',
+                    prices: 'A partir de R$ 40,00/hora',
+                    instagram: '@aulassabedoria',
+                    website: '',
+                    whatsapp: '5511900000000'
+                }
+            ]
         };
 
-        // Função para carregar categorias do Google Apps Script
-        async function loadCategories() {
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=getCategories`);
-                const data = await response.json();
-                
-                if (data.error) {
-                    showError('Erro ao carregar categorias: ' + data.error);
-                    return;
-                }
-                
-                displayCategories(data.categories || []);
-            } catch (error) {
-                console.error('Erro ao carregar categorias:', error);
-                showError('Não foi possível carregar as categorias. Por favor, tente novamente mais tarde.');
-            }
-        }
-
-        // Função para exibir categorias na página
-        function displayCategories(categories) {
+        // Function to load categories
+        function loadCategories() {
             const categoriesContainer = document.getElementById('categories-container');
-            categoriesContainer.innerHTML = '';
-            
-            if (categories.length === 0) {
-                categoriesContainer.innerHTML = '<div class="col-12"><div class="alert alert-info">Nenhuma categoria encontrada.</div></div>';
-                document.getElementById('loading').style.display = 'none';
-                categoriesContainer.style.display = 'block';
-                return;
-            }
             
             categories.forEach(category => {
                 const categoryCard = document.createElement('div');
                 categoryCard.className = 'col-md-6 col-lg-3';
-                
-                // Determinar o ícone da categoria
-                const icon = categoryIcons[category.id] || categoryIcons.default;
-                
                 categoryCard.innerHTML = `
                     <div class="category-card" data-category-id="${category.id}">
                         <div class="category-icon">
-                            <i class="${icon}"></i>
+                            <i class="${category.icon}"></i>
                         </div>
                         <div class="category-info">
                             <h3>${category.name}</h3>
+                            <p>${category.description}</p>
                             <button class="btn btn-view">Ver Serviços</button>
                         </div>
                     </div>
@@ -327,36 +454,20 @@
             categoriesContainer.style.display = 'flex';
         }
 
-        // Função para mostrar empreendedores de uma categoria específica
-        async function showEntrepreneurs(categoryId, categoryName) {
+        // Function to show entrepreneurs for a specific category
+        function showEntrepreneurs(categoryId, categoryName) {
             const entrepreneursContainer = document.getElementById('entrepreneurs-container');
-            entrepreneursContainer.innerHTML = '<div class="text-center p-4"><div class="spinner-border" role="status"><span class="visually-hidden">Carregando...</span></div></div>';
+            entrepreneursContainer.innerHTML = '';
             
             // Update modal title
             document.getElementById('entrepreneursModalLabel').textContent = categoryName;
             
-            // Show the modal
-            const entrepreneursModal = new bootstrap.Modal(document.getElementById('entrepreneursModal'));
-            entrepreneursModal.show();
+            const categoryEntrepreneurs = entrepreneurs[categoryId] || [];
             
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=getEntrepreneursByCategory&categoryId=${categoryId}`);
-                const data = await response.json();
-                
-                if (data.error) {
-                    entrepreneursContainer.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                    return;
-                }
-                
-                const entrepreneurs = data.entrepreneurs || [];
-                
-                if (entrepreneurs.length === 0) {
-                    entrepreneursContainer.innerHTML = '<div class="alert alert-info">Nenhum empreendedor encontrado nesta categoria.</div>';
-                    return;
-                }
-                
-                entrepreneursContainer.innerHTML = '';
-                entrepreneurs.forEach(entrepreneur => {
+            if (categoryEntrepreneurs.length === 0) {
+                entrepreneursContainer.innerHTML = '<div class="alert alert-info">Nenhum empreendedor encontrado nesta categoria.</div>';
+            } else {
+                categoryEntrepreneurs.forEach(entrepreneur => {
                     const entrepreneurCard = document.createElement('div');
                     entrepreneurCard.className = 'entrepreneur-card';
                     entrepreneurCard.innerHTML = `
@@ -374,21 +485,14 @@
                     `;
                     entrepreneursContainer.appendChild(entrepreneurCard);
                 });
-            } catch (error) {
-                console.error('Erro ao carregar empreendedores:', error);
-                entrepreneursContainer.innerHTML = '<div class="alert alert-danger">Não foi possível carregar os empreendedores. Por favor, tente novamente mais tarde.</div>';
             }
+            
+            // Show the modal
+            const entrepreneursModal = new bootstrap.Modal(document.getElementById('entrepreneursModal'));
+            entrepreneursModal.show();
         }
 
-        // Função para exibir mensagens de erro
-        function showError(message) {
-            const categoriesContainer = document.getElementById('categories-container');
-            categoriesContainer.innerHTML = `<div class="col-12"><div class="alert alert-danger">${message}</div></div>`;
-            document.getElementById('loading').style.display = 'none';
-            categoriesContainer.style.display = 'block';
-        }
-
-        // Carregar categorias quando a página for carregada
+        // Load categories when the page is loaded
         document.addEventListener('DOMContentLoaded', loadCategories);
     </script>
 </body>
